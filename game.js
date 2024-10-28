@@ -1,26 +1,30 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-const patatinaX = 100; // Posizione orizzontale fissa della patatina
-let patatinaY = canvas.height - 50; // Posizione verticale della patatina
+const patatinaRadius = 25; // Raggio della patatina
+let patatinaX = 100; // Posizione orizzontale fissa della patatina
+let patatinaY = canvas.height - patatinaRadius; // Posizione verticale della patatina
 let jumping = false;
 let gameFinished = false;
-let crouching = false; // Variabile per gestire se la patatina è accovacciata
-
-const obstacles = []; // Array per memorizzare gli ostacoli
+let obstacles = []; // Array per memorizzare gli ostacoli
+let level = 1; // Livello corrente
 const obstacleWidth = 50; // Larghezza degli ostacoli
 const obstacleHeight = 50; // Altezza degli ostacoli
 const obstacleFrequency = 1500; // Tempo tra la generazione degli ostacoli (in millisecondi)
+let score = 0; // Punteggio
 
 // Funzione per disegnare la patatina
 function drawPatatina() {
-    ctx.font = "40px Arial";
-    ctx.fillText("🥔", patatinaX, patatinaY); // Disegna la patatina
+    ctx.beginPath();
+    ctx.arc(patatinaX, patatinaY, patatinaRadius, 0, Math.PI * 2);
+    ctx.fillStyle = "brown"; // Colore della patatina
+    ctx.fill();
+    ctx.closePath();
 }
 
 // Funzione per gestire il salto
 function jump() {
-    if (jumping || gameFinished || crouching) return; // Non saltare se già saltando, gioco finito, o se accovacciato
+    if (jumping || gameFinished) return; // Non saltare se già saltando o gioco finito
     jumping = true;
     let jumpHeight = 0;
 
@@ -39,7 +43,7 @@ function jump() {
 // Funzione per gestire la caduta
 function falling() {
     const fallInterval = setInterval(() => {
-        if (patatinaY >= canvas.height - 50) {
+        if (patatinaY >= canvas.height - patatinaRadius) {
             clearInterval(fallInterval);
             jumping = false;
         } else {
@@ -47,20 +51,6 @@ function falling() {
             draw();
         }
     }, 20);
-}
-
-// Funzione per abbassare la patatina
-function crouch() {
-    if (jumping || gameFinished || crouching) return; // Non abbassare se già saltando, gioco finito, o già accovacciato
-    crouching = true;
-    patatinaY += 20; // Abbassa la patatina
-
-    setTimeout(() => {
-        // Ripristina la posizione dopo un certo tempo (per esempio, 1 secondo)
-        patatinaY -= 20; 
-        crouching = false; // Ripristina lo stato accovacciato
-        draw();
-    }, 1000);
 }
 
 // Funzione per generare ostacoli (coltelli)
@@ -75,15 +65,16 @@ function updateObstacles() {
         obstacles[i].x -= 5; // Muovi l'ostacolo verso sinistra
         // Controlla collisioni
         if (
-            patatinaX + 40 > obstacles[i].x &&
-            patatinaX < obstacles[i].x + obstacleWidth &&
-            patatinaY + 40 > obstacles[i].y
+            patatinaX + patatinaRadius > obstacles[i].x &&
+            patatinaX - patatinaRadius < obstacles[i].x + obstacleWidth &&
+            patatinaY + patatinaRadius > obstacles[i].y
         ) {
             endGame(); // Se c'è collisione, termina il gioco
         }
         // Rimuovi coltelli fuori dallo schermo
         if (obstacles[i].x + obstacleWidth < 0) {
             obstacles.splice(i, 1);
+            score++; // Aumenta il punteggio se si supera un ostacolo
         }
     }
 }
@@ -91,38 +82,30 @@ function updateObstacles() {
 // Funzione per disegnare tutto
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Pulisci il canvas
+    drawPatatina(); // Disegna la patatina
 
     // Disegna gli ostacoli (coltelli)
     for (let obstacle of obstacles) {
-        ctx.font = "50px Arial"; // Dimensione del coltello
-        ctx.fillText("🔪", obstacle.x, obstacle.y + obstacleHeight); // Disegna l'emoji del coltello
+        ctx.fillStyle = "gray"; // Colore del coltello
+        ctx.fillRect(obstacle.x, obstacle.y, obstacleWidth, obstacleHeight); // Disegna il coltello
     }
 
-    drawPatatina(); // Disegna la patatina
-
-    // Se la patatina è accovacciata, disegna la scritta "SMASH POTATO"
-    if (crouching) {
-        ctx.font = "30px Arial";
-        ctx.fillStyle = "white"; // Colore del testo
-        ctx.fillText("SMASH POTATO!", patatinaX + 60, patatinaY - 30); // Posiziona la scritta
-    }
+    // Disegna il punteggio
+    ctx.fillStyle = "white";
+    ctx.font = "20px Arial";
+    ctx.fillText("Punteggio: " + score, 10, 20);
 }
 
-// Funzione per terminare il gioco e avviare il quiz
+// Funzione per terminare il gioco
 function endGame() {
     gameFinished = true; // Imposta il gioco come finito
-    clearInterval(obstacleInterval); // Ferma la generazione degli ostacoli
-    document.getElementById("quizArea").style.display = "block"; // Mostra l'area del quiz
-    loadQuestion(); // Carica la prima domanda del quiz
+    document.getElementById("gameOver").style.display = "block"; // Mostra il messaggio di game over
 }
 
-// Event listener per il salto e l'abbassamento
+// Event listener per il salto
 document.addEventListener("keydown", (event) => {
     if (event.code === "Space") {
         jump();
-    }
-    if (event.code === "ArrowDown") {
-        crouch();
     }
 });
 
