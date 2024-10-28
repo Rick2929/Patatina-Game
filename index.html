@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gioco Patatina</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            background-color: #282c34;
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden; /* Nasconde eventuali barre di scorrimento */
+        }
+        canvas {
+            border: 2px solid white; /* Bordo del canvas */
+            background-color: #444; /* Colore di sfondo del canvas */
+        }
+        #gameOver {
+            display: none;
+            color: red;
+            font-size: 30px;
+            margin-top: 20px;
+        }
+        #smashMessage {
+            display: none;
+            color: green;
+            font-size: 30px;
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10; /* Garantisce che il messaggio sia sopra gli altri elementi */
+        }
+    </style>
+</head>
+<body>
+
+    <div id="smashMessage">SMASH POTATO!</div> <!-- Messaggio quando la patatina si abbassa -->
+    <canvas id="gameCanvas" width="800" height="600"></canvas> <!-- Area di gioco -->
+    <div id="gameOver">La Patata È Stata Sbucciata</div> <!-- Messaggio di Game Over -->
+
+    <script src="game.js"></script> <!-- Collegamento al file JavaScript -->
+</body>
+</html>
