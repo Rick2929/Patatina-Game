@@ -1,28 +1,24 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-const patatinaRadius = 25; // Raggio della patatina
-let patatinaX = 100; // Posizione orizzontale fissa della patatina
-let patatinaY = canvas.height - patatinaRadius; // Posizione verticale della patatina
+const patatinaX = 100; // Posizione orizzontale fissa della patatina
+let patatinaY = canvas.height - 50; // Posizione verticale della patatina
 let jumping = false;
 let crouching = false;
 let gameFinished = false;
 let obstacles = []; // Array per memorizzare gli ostacoli
 let level = 1; // Livello corrente
+let score = 0; // Punteggio
+let jumpCount = 0; // Conteggio dei salti per livello
+const maxJumps = 10; // Salti massimi per livello
 const obstacleWidth = 50; // Larghezza degli ostacoli
 const obstacleHeight = 50; // Altezza degli ostacoli
 const obstacleFrequency = 1500; // Tempo tra la generazione degli ostacoli (in millisecondi)
-let score = 0; // Punteggio
-let jumpCount = 0; // Conteggio dei salti per livello
-let maxJumps; // Salti massimi per livello
 
 // Funzione per disegnare la patatina
 function drawPatatina() {
-    ctx.beginPath();
-    ctx.arc(patatinaX, patatinaY, patatinaRadius, 0, Math.PI * 2);
-    ctx.fillStyle = "brown"; // Colore della patatina
-    ctx.fill();
-    ctx.closePath();
+    ctx.font = "50px Arial";
+    ctx.fillText("🥔", patatinaX, patatinaY); // Disegna la patatina
 }
 
 // Funzione per gestire il salto
@@ -46,7 +42,7 @@ function jump() {
 // Funzione per gestire la caduta
 function falling() {
     const fallInterval = setInterval(() => {
-        if (patatinaY >= canvas.height - patatinaRadius) {
+        if (patatinaY >= canvas.height - 50) {
             clearInterval(fallInterval);
             jumping = false;
         } else {
@@ -58,8 +54,10 @@ function falling() {
 
 // Funzione per generare ostacoli (coltelli)
 function generateObstacle() {
-    const obstacleY = Math.random() < 0.5 ? canvas.height - obstacleHeight : Math.random() * (canvas.height - obstacleHeight - 50); // 50% chance di essere sul pavimento o in aria
-    obstacles.push({ x: canvas.width, y: obstacleY, isAirborne: obstacleY < canvas.height - obstacleHeight }); // Aggiungi un nuovo coltello
+    const isAirborne = Math.random() < 0.5; // 50% chance di essere in aria
+    const obstacleY = isAirborne ? Math.random() * (canvas.height - 200) : canvas.height - obstacleHeight; // Posizione Y dell'ostacolo
+
+    obstacles.push({ x: canvas.width, y: obstacleY, isAirborne }); // Aggiungi un nuovo coltello
 }
 
 // Funzione per aggiornare la posizione degli ostacoli
@@ -68,9 +66,9 @@ function updateObstacles() {
         obstacles[i].x -= 5; // Muovi l'ostacolo verso sinistra
         // Controlla collisioni
         if (
-            patatinaX + patatinaRadius > obstacles[i].x &&
-            patatinaX - patatinaRadius < obstacles[i].x + obstacleWidth &&
-            patatinaY + (crouching ? 0 : patatinaRadius) > obstacles[i].y
+            patatinaX + 40 > obstacles[i].x &&
+            patatinaX < obstacles[i].x + obstacleWidth &&
+            patatinaY + (crouching ? 0 : 50) > obstacles[i].y
         ) {
             endGame(); // Se c'è collisione, termina il gioco
         }
@@ -89,8 +87,6 @@ function draw() {
 
     // Disegna gli ostacoli (coltelli)
     for (let obstacle of obstacles) {
-        ctx.fillStyle = "gray"; // Colore del coltello
-        ctx.fillRect(obstacle.x, obstacle.y, obstacleWidth, obstacleHeight); // Disegna il coltello
         ctx.font = "50px Arial"; // Dimensione del coltello
         ctx.fillText("🔪", obstacle.x, obstacle.y + obstacleHeight); // Disegna l'emoji del coltello
     }
@@ -110,14 +106,13 @@ function endGame() {
 
 // Funzione per reset del gioco
 function resetGame() {
-    patatinaY = canvas.height - patatinaRadius; // Ripristina la posizione verticale della patatina
+    patatinaY = canvas.height - 50; // Ripristina la posizione verticale della patatina
     jumping = false;
     crouching = false;
     gameFinished = false;
     obstacles = []; // Svuota gli ostacoli
     score = 0; // Ripristina il punteggio
     jumpCount = 0; // Ripristina il conteggio dei salti
-    maxJumps = level === 1 ? 10 : level === 2 ? 15 : 20; // Imposta i salti massimi per livello
     document.getElementById("gameOver").style.display = "none"; // Nascondi il messaggio di game over
     document.getElementById("gameCanvas").style.display = "block"; // Mostra il canvas
 }
@@ -126,10 +121,11 @@ function resetGame() {
 function crouch() {
     if (jumping || gameFinished) return; // Non abbassarsi se già saltando o gioco finito
     crouching = true;
-    document.getElementById("smashMessage").style.display = "block"; // Mostra il messaggio "SMASH POTATO!"
+    const crouchMessage = document.getElementById("smashMessage");
+    crouchMessage.style.display = "block"; // Mostra il messaggio "SMASH POTATO!"
     setTimeout(() => {
         crouching = false;
-        document.getElementById("smashMessage").style.display = "none"; // Nascondi il messaggio
+        crouchMessage.style.display = "none"; // Nascondi il messaggio
     }, 1000); // Mostra per 1 secondo
 }
 
@@ -139,13 +135,10 @@ document.addEventListener("keydown", (event) => {
         jump();
         jumpCount++;
         if (jumpCount >= maxJumps) {
-            if (level < 3) {
-                level++;
-                alert("Livello " + level + " Inizio!");
-                resetGame();
-            } else {
-                alert("Hai completato tutti i livelli!"); // Messaggio di fine gioco
-            }
+            alert("Hai completato il livello " + level + "!");
+            resetGame();
+            level++; // Incrementa il livello
+            jumpCount = 0; // Reset dei salti per il nuovo livello
         }
     } else if (event.code === "ArrowDown") {
         crouch();
