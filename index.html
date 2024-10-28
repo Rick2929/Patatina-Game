@@ -12,7 +12,7 @@
             background-color: #50C878; /* Sfondo verde smeraldo */
             font-family: Arial, sans-serif;
             color: white;
-            position: relative; /* Aggiunto per la posizione assoluta dei messaggi */
+            position: relative;
         }
 
         #gameCanvas {
@@ -21,52 +21,21 @@
             border: 2px solid black;
         }
 
-        #gameOverMessage {
+        #gameOver {
+            display: none;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 36px;
+            font-size: 40px;
             color: red;
-            display: none; /* Nascondi inizialmente */
-        }
-
-        #quizArea {
-            text-align: center;
-            display: none; /* Nascondi inizialmente l'area del quiz */
-            margin-top: 20px;
-        }
-
-        #quizMessage {
-            margin: 20px 0;
-            font-size: 24px;
-            color: red; /* Colore rosso per messaggi di errore */
-        }
-
-        #nextButton {
-            display: none; /* Nascondi inizialmente il pulsante per la prossima domanda */
-        }
-
-        #answerInput {
-            display: none; /* Nascondi inizialmente la barra di input per risposte aperte */
-            margin: 10px 0;
         }
     </style>
 </head>
 <body>
     <h1 style="text-align:center;">Il Gioco della Patatina 🥔</h1>
     <canvas id="gameCanvas" width="800" height="400"></canvas>
-    <div id="gameOverMessage">La Patatina E' Stata Sbucciata</div>
-
-    <div id="quizArea">
-        <h2 id="quizQuestion"></h2>
-        <div id="quizOptions"></div>
-        <input type="text" id="answerInput" placeholder="Scrivi la tua risposta qui...">
-        <div id="quizMessage"></div>
-        <button id="nextButton">Prossima Domanda</button>
-    </div>
-
+    <div id="gameOver">La Patata E' Stata Sbucciata!</div>
     <script src="game.js"></script>
-    <script src="quiz.js"></script>
 </body>
 </html>
