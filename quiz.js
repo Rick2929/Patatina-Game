@@ -1,118 +1,76 @@
-const quizQuestions = [
-    {
-        question: "Quanti anni ha Patatina?",
-        correctAnswer: "Noni mesi",
-        wrongAnswers: ["Noni + noni", "Eh?", "No me lo wicoddo"]
-    },
-    {
-        question: "Che mutica accotta Patatina?",
-        correctAnswer: "Le cazzoni di ovetto",
-        wrongAnswers: ["Pinguini tattici nucleari", "Twenty one pilots", "Nettuna pecche no sente"]
-    },
-    {
-        question: "Qual è i colowe pefewito di Patatina?",
-        correctAnswer: "Newo",
-        wrongAnswers: ["Giallo patata", "Blu", "Vedde"]
-    },
-    {
-        question: "Qual è i numewo più gaddi di tutti?",
-        correctAnswer: "Noni",
-        wrongAnswers: ["I numeri sono infiniti", "Otta", "Quiddici"]
-    },
-    {
-        question: "In quale città Patatina ha dato i pimo bacio a Guscio?",
-        correctAnswer: "Nettuna",
-        wrongAnswers: ["Caffo ne to", "Barcellona", "Marsiglia"]
-    },
-    {
-        question: "Qual è tato i pimo viaggio di Patatina e Ovetto?",
-        correctAnswer: "Bristi",
-        wrongAnswers: ["Vienni", "Messina", "Londra"]
-    },
-    {
-        question: "Qual è tata la pima VACAZZA di Patatina e Ovetto?",
-        correctAnswer: "Vienni",
-        wrongAnswers: ["Messina", "Londra", "CRACOVIA"]
-    },
-    {
-        question: "Qual è tato i wegalo pe i tei meti?",
-        correctAnswer: "POWER POINT IO TI SGUSCIO UOVO CATTIVO",
-        wrongAnswers: []
-    },
-    {
-        question: "Pe quatto teppo Patatina e Ovetto tawanno ittiemi?",
-        correctAnswer: "Pe teppi yeeeeeee",
-        wrongAnswers: ["Non lo so", "2/3 anni", "Fino al primo anno di convivenza"]
-    },
-    {
-        question: "Quanto mi ami dopo questo regalo?",
-        correctAnswer: "Uguale pecche gia ti amavino all'iffinito",
-        wrongAnswers: ["Tantissimo", "Noni + noni x noni all'infinito", "No ti voglio più"]
-    }
-];
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz di Patatina</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="quiz.js"></script>
+    <style>
+        body {
+            background-color: #004d00; /* Verde scuro */
+            color: white; /* Colore del testo */
+            font-family: Arial, sans-serif;
+            text-align: center;
+            position: relative; /* Per l'animazione dell'emoji */
+            overflow: hidden; /* Nasconde eventuali overflow */
+        }
 
-let currentQuestionIndex = 0;
+        .emoji {
+            font-size: 100px; /* Dimensione dell'emoji */
+        }
 
-function shuffleAnswers(correct, wrong) {
-    const allAnswers = [correct, ...wrong];
-    for (let i = allAnswers.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [allAnswers[i], allAnswers[j]] = [allAnswers[j], allAnswers[i]];
-    }
-    return allAnswers;
-}
+        .egg {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 1s infinite alternate; /* Animazione di rimbalzo */
+            z-index: -1; /* Porta l'emoji sullo sfondo */
+        }
 
-function showQuestion() {
-    const questionContainer = document.getElementById('quiz-container');
-    const responseContainer = document.getElementById('response');
-    const nextButton = document.getElementById('next');
-    
-    if (currentQuestionIndex < quizQuestions.length) {
-        const { question, correctAnswer, wrongAnswers } = quizQuestions[currentQuestionIndex];
-        const answers = shuffleAnswers(correctAnswer, wrongAnswers);
+        @keyframes bounce {
+            0% {
+                transform: translate(-50%, 0); /* Posizione originale */
+            }
+            100% {
+                transform: translate(-50%, -20px); /* Posizione su */
+            }
+        }
 
-        questionContainer.innerHTML = `<h2>${question}</h2>`;
-        answers.forEach(answer => {
-            const button = document.createElement('button');
-            button.innerText = answer;
-            button.className = 'button';
-            button.onclick = () => checkAnswer(answer);
-            questionContainer.appendChild(button);
-        });
-        responseContainer.innerHTML = '';
-        nextButton.style.display = 'none'; // Nascondi il pulsante "Prossima domanda"
-    } else {
-        questionContainer.innerHTML = '<h2>Hai completato il quiz!</h2>';
-        document.getElementById('response').innerHTML = '';
-        document.getElementById('next').style.display = 'none';
-    }
-}
+        .button {
+            background-color: #007bff; /* Colore del pulsante */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 20px;
+            cursor: pointer;
+            margin: 10px;
+        }
 
-function checkAnswer(answer) {
-    const correctAnswer = quizQuestions[currentQuestionIndex].correctAnswer;
-    const responseContainer = document.getElementById('response');
-    const nextButton = document.getElementById('next');
-    
-    if (answer === correctAnswer) {
-        const responses = [
-            "Bravo tu ti che tei un ovetto!",
-            "Yeeee hai iddovinato!!",
-            "Bravo ovetto!",
-            "Wow e come facevi a tapella"
-        ];
-        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-        responseContainer.innerHTML = `<span class="correct">${randomResponse}</span>`;
-    } else {
-        responseContainer.innerHTML = `<span class="wrong">Sbagliato. Wipova.</span>`;
-    }
+        .button:hover {
+            background-color: #0056b3; /* Colore del pulsante al passaggio del mouse */
+        }
 
-    nextButton.style.display = 'block'; // Mostra il pulsante "Prossima domanda"
-}
+        .response {
+            margin-top: 20px;
+            font-size: 24px;
+        }
 
-function nextQuestion() {
-    currentQuestionIndex++;
-    showQuestion();
-}
+        .wrong {
+            color: red; /* Rosso per la risposta sbagliata */
+        }
 
-// Avvio del quiz
-showQuestion();
+        .correct {
+            color: green; /* Verde per la risposta corretta */
+        }
+    </style>
+</head>
+<body>
+    <div class="emoji">🥔</div>
+    <div class="egg">🥚</div> <!-- Emoji dell'uovo -->
+    <h1>Quiz di Patatina</h1>
+    <div id="quiz-container"></div>
+    <div id="response" class="response"></div>
+    <button id="next" class="button" onclick="nextQuestion()" style="display:none;">Prossima Domanda</button>
+</body>
+</html>
