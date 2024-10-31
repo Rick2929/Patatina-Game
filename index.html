@@ -3,49 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gioco della Patatina</title>
+    <title>Quiz di Patatina</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="quiz.js"></script>
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #50C878; /* Sfondo verde smeraldo */
+            background-color: #004d00; /* Verde scuro */
+            color: white; /* Colore del testo */
             font-family: Arial, sans-serif;
-            color: white;
-        }
-
-        #gameCanvas {
-            display: block;
-            margin: auto;
-            border: 2px solid black;
-        }
-
-        #quizArea {
             text-align: center;
-            display: none; /* Nascondi inizialmente l'area del quiz */
         }
-
-        #quizMessage {
-            margin: 20px 0;
+        .emoji {
+            font-size: 100px; /* Dimensione dell'emoji */
         }
-
-        #nextButton {
-            display: none; /* Nascondi inizialmente il pulsante per la prossima domanda */
+        .button {
+            background-color: #007bff; /* Colore del pulsante */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 20px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .button:hover {
+            background-color: #0056b3; /* Colore del pulsante al passaggio del mouse */
+        }
+        .response {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+        .wrong {
+            color: red; /* Rosso per la risposta sbagliata */
+        }
+        .correct {
+            color: green; /* Verde per la risposta corretta */
         }
     </style>
 </head>
 <body>
-    <h1 style="text-align:center;">Il Gioco della Patatina 🥔</h1>
-    <canvas id="gameCanvas" width="800" height="400"></canvas>
-
-    <div id="quizArea">
-        <h2 id="quizQuestion"></h2>
-        <div id="quizOptions"></div>
-        <div id="quizMessage"></div>
-        <button id="nextButton">Prossima Domanda</button>
-    </div>
-
-    <script src="game.js"></script>
-    <script src="quiz.js"></script>
+    <div class="emoji">🥔</div>
+    <h1>Quiz di Patatina</h1>
+    <div id="quiz-container"></div>
+    <div id="response" class="response"></div>
+    <button id="next" class="button" onclick="nextQuestion()" style="display:none;">Prossima Domanda</button>
 </body>
 </html>
