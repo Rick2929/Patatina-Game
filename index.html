@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dino Game</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f7f7f7;
+      overflow: hidden;
+    }
+
+    #gameArea {
+      position: relative;
+      width: 800px;
+      height: 200px;
+      overflow: hidden;
+      background-color: #fff;
+      border: 1px solid #ccc;
+    }
+
+    #dino {
+      position: absolute;
+      bottom: 0;
+      left: 50px;
+      width: 44px;
+      height: 47px;
+      background-image: url('https://i.imgur.com/kMjMFM4.png'); /* Sprite del dinosauro */
+      background-size: cover;
+    }
+
+    @keyframes run {
+      0% { background-position: 0px; }
+      100% { background-position: -88px; }
+    }
+
+    #dino.running {
+      animation: run 0.1s steps(2) infinite;
+    }
+
+    #cactus {
+      position: absolute;
+      bottom: 0;
+      right: -50px;
+      width: 25px;
+      height: 50px;
+      background-color: #008000;
+    }
+
+    #score {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 24px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div id="gameArea">
+    <div id="dino" class="running"></div>
+    <div id="cactus"></div>
+    <div id="score">0</div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
