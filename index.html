@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dino Game</title>
+  <title>Potato Game</title>
   <style>
     * {
       margin: 0;
@@ -27,26 +27,15 @@
       height: 200px;
       overflow: hidden;
       background-color: #fff;
-      border: 1px solid #ccc;
+      border: 2px solid #333;
     }
 
-    #dino {
+    #potato {
       position: absolute;
       bottom: 0;
       left: 50px;
-      width: 44px;
-      height: 47px;
-      background-image: url('https://i.imgur.com/kMjMFM4.png'); /* Sprite del dinosauro */
-      background-size: cover;
-    }
-
-    @keyframes run {
-      0% { background-position: 0px; }
-      100% { background-position: -88px; }
-    }
-
-    #dino.running {
-      animation: run 0.1s steps(2) infinite;
+      font-size: 40px;
+      transition: transform 0.1s;
     }
 
     #cactus {
@@ -65,13 +54,30 @@
       font-size: 24px;
       color: #555;
     }
+
+    .ground {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      background-color: #333;
+      animation: groundMove 1.5s linear infinite;
+    }
+
+    @keyframes groundMove {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-100%);
+      }
+    }
   </style>
 </head>
 <body>
   <div id="gameArea">
-    <div id="dino" class="running"></div>
-    <div id="cactus"></div>
-    <div id="score">0</div>
+    <div id="potato">🥔</div>
+    <div id="score">Score: 0</div>
   </div>
 
   <script src="game.js"></script>
