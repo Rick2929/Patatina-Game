@@ -1,85 +1,51 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Potato Game</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gioco della Patatina</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #50C878; /* Sfondo verde smeraldo */
+            font-family: Arial, sans-serif;
+            color: white;
+        }
 
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #f7f7f7;
-      overflow: hidden;
-    }
+        #gameCanvas {
+            display: block;
+            margin: auto;
+            border: 2px solid black;
+        }
 
-    #gameArea {
-      position: relative;
-      width: 800px;
-      height: 200px;
-      overflow: hidden;
-      background-color: #fff;
-      border: 2px solid #333;
-    }
+        #quizArea {
+            text-align: center;
+            display: none; /* Nascondi inizialmente l'area del quiz */
+        }
 
-    #potato {
-      position: absolute;
-      bottom: 0;
-      left: 50px;
-      font-size: 40px;
-      transition: transform 0.1s;
-    }
+        #quizMessage {
+            margin: 20px 0;
+        }
 
-    #cactus {
-      position: absolute;
-      bottom: 0;
-      right: -50px;
-      width: 25px;
-      height: 50px;
-      background-color: #008000;
-    }
-
-    #score {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 24px;
-      color: #555;
-    }
-
-    .ground {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      height: 2px;
-      background-color: #333;
-      animation: groundMove 1.5s linear infinite;
-    }
-
-    @keyframes groundMove {
-      from {
-        transform: translateX(0);
-      }
-      to {
-        transform: translateX(-100%);
-      }
-    }
-  </style>
+        #nextButton {
+            display: none; /* Nascondi inizialmente il pulsante per la prossima domanda */
+        }
+    </style>
 </head>
 <body>
-  <div id="gameArea">
-    <div id="potato">🥔</div>
-    <div id="score">Score: 0</div>
-  </div>
+    <h1 style="text-align:center;">Il Gioco della Patatina 🥔</h1>
+    <canvas id="gameCanvas" width="800" height="400"></canvas>
 
-  <script src="game.js"></script>
+    <div id="quizArea">
+        <h2 id="quizQuestion"></h2>
+        <div id="quizOptions"></div>
+        <div id="quizMessage"></div>
+        <button id="nextButton">Prossima Domanda</button>
+    </div>
+
+    <script src="game.js"></script>
+    <script src="quiz.js"></script>
 </body>
 </html>
