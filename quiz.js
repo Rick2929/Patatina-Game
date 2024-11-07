@@ -11,7 +11,7 @@ const quizQuestions = [
     },
     {
         question: "Qual è i colowe pefewito di Patatina?",
-        correctAnswer: "Newo",
+        correctAnswer: "No vede",
         wrongAnswers: ["Giallo patata", "Blu", "Vedde"]
     },
     {
@@ -48,6 +48,31 @@ const quizQuestions = [
         question: "Quanto mi ami dopo questo regalo?",
         correctAnswer: "Uguale pecche gia ti amavino all'iffinito",
         wrongAnswers: ["Tantissimo", "Noni + noni x noni all'infinito", "No ti voglio più"]
+    },
+    {
+        question: "Cota tawa' accaduto i 13 dicebbi?",
+        correctAnswer: "Noni mesi dal primo "ti amino"",
+        wrongAnswers: ["No lo to", "Noni mesi dal primo bacio", "Noni mesi dal primo wegalo"]
+    },
+    {
+        question: "Dove vive i quetto pewiodo ovetto?",
+        correctAnswer: "A Minoni",
+        wrongAnswers: ["A Cotoni", "A Itoli", "A Cosezzi"]
+    },
+    {
+        question: "Quiddi dove tawa' ovetto i 13 dicebbi?",
+        correctAnswer: "A Minoni",
+        wrongAnswers: ["A Cotoni", "A Itoli", "A Cosezzi"]
+    },
+    {
+        question: "Dove vive i quetto pewiodo patatina?",
+        correctAnswer: "A Cosezzi",
+        wrongAnswers: ["A Cotoni", "A Itoli", "A Minoni"]
+    },
+    {
+        question: "Quiddi dove tawa' patatina i 13 dicebbi?",
+        correctAnswer: "A Minoni",
+        wrongAnswers: ["A Cotoni", "A Itoli", "A Cosezzi"]
     }
 ];
 
