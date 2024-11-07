@@ -60,7 +60,7 @@ const quizQuestions = [
         wrongAnswers: ["A Cotoni", "A Itoli", "A Cosezzi"]
     },
     {
-        question: "Quiddi dove tawa' ovetto i 13 dicebbi?",
+        question: "E e e e quiddi dove tawa' ovetto i 13 dicebbi?",
         correctAnswer: "A Minoni",
         wrongAnswers: ["A Cotoni", "A Itoli", "A Cosezzi"]
     },
@@ -70,7 +70,7 @@ const quizQuestions = [
         wrongAnswers: ["A Cotoni", "A Itoli", "A Minoni"]
     },
     {
-        question: "Quiddi dove tawa' patatina i 13 dicebbi?",
+        question: "E e e e quiddi dove tawa' patatina i 13 dicebbi?",
         correctAnswer: "A Minoni",
         wrongAnswers: ["A Cotoni", "A Itoli", "A Cosezzi"]
     }
